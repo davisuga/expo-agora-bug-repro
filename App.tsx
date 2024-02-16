@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "expo-dev-client";
+import React, { useState } from "react";
+import AgoraUIKit from "agora-rn-uikit";
+import { Text } from "react-native";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+const App = () => {
+  const [videoCall, setVideoCall] = useState(true);
+  const connectionData = {
+    appId: "<Agora App ID>",
+    channel: "test",
+  };
+  const rtcCallbacks = {
+    EndCall: () => setVideoCall(false),
+  };
+  return videoCall ? (
+    <AgoraUIKit connectionData={connectionData} rtcCallbacks={rtcCallbacks} />
+  ) : (
+    <Text onPress={() => setVideoCall(true)}>Start Call</Text>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
